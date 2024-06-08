@@ -75,5 +75,6 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation ("io.github.vanpra.compose-material-dialogs:core:0.9.0")
     implementation ("io.github.vanpra.compose-material-dialogs:datetime:0.9.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.1")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.6")
 }

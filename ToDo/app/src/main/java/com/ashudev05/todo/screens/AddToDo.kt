@@ -32,24 +32,24 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ashudev05.todo.R
 import com.ashudev05.todo.components.TableRow
 import com.ashudev05.todo.components.UnstyledTextField
-import com.ashudev05.todo.modals.AddToDoModel
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import java.util.logging.Logger
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddToDo(
-    navController: NavController
+    navController: NavController,
+    todos: Map<String, LocalDate> = mapOf(),
 ) {
     var todo by remember { mutableStateOf("") }
     var pickedDate by remember { mutableStateOf(LocalDate.now()) }
@@ -61,8 +61,6 @@ fun AddToDo(
         }
     }
     val ctx = LocalContext.current
-
-    val vm by viewModel<AddToDoModel>()
 
     Scaffold(
         topBar = {
@@ -136,13 +134,15 @@ fun AddToDo(
                      }
                  Button(
                      onClick = {
-                            // Add the todo to the list
-                            // and navigate back to the home screen
-                               // use AddToDoModel to add the todo
-                         vm.todos.add
-
-                         navController.popBackStack())
-
+                         // add the todo in the map todos
+                            todos.plus(todo to pickedDate)
+                            Toast.makeText(
+                                ctx,
+                                "Added ToDo: $todo",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                         Logger.getLogger("AddToDo").info("Todos: $todos")
+                         navController.navigate("home")
                      },
                      modifier = Modifier
                          .padding(top = 120.dp)
